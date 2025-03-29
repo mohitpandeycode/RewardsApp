@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  Admin-Login
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}" />
+<link rel="stylesheet" href="{% static 'css/loginpage.css' %}" />
+
+{% endblock %}
+
+{% block body %}
+  <div class="adminformbody">
+    <div class="container">
+      <form method="Post">
+        {% csrf_token %}
+        <div id="login-form">
+          <h2>Admin Login</h2>
+          <div class="form-group">
+            <label for="login-username">Username</label>
+            <input type="text" id="login-username" name="username" required />
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" name="password" required />
+          </div>
+          <button id="login-button" type="submit">Login</button>
+          {% if messages %}
+            {% for message in messages %}
+              <p class="forminfo" style="color: red;">{{ message }}!</p>
+            {% endfor %}
+            {% else %}
+            <p class="forminfo">Please login with your admin credentials only!</p>
+          {% endif %}
+          <p class="forminfo backtohome">
+            Not an admin?<a href="/user-facing/">Login as User</a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block tilte %}
+  Welcome to Admin Dashboard
+{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="sidebar">
+      <ul>
+        <li>
+          <a data-page="home" id="home" class="active"><i class="fa-solid fa-house"></i> Home</a>
+        </li>
+        <li>
+          <a id="addapp" data-page="add-app"><i class="fa-solid fa-circle-plus"></i> Add Apps</a>
+        </li>
+        <li>
+          <a id="users" data-page="users"><i class="fa-solid fa-users"></i> Users</a>
+        </li>
+        <li>
+          <a href="{% url 'adminlogout' %}" id="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </li>
+      </ul>
+    </div>
+    <div class="content active" id="home">
+      <div class="header">
+        <h2 style="margin-block-end: -10px; margin-block-start: 2px;">Welcome Back Admin 🫡</h2>
+        <p style="color: black;">Here is something you can do with your RewardsApp...</p>
+      </div>
+      <div class="profile-container maincontent">
+        {% if apps %}
+          <h3 style="margin-left: 10px;">Apps you added for rewards!</h3>
+          <hr />
+          {% for app in apps %}
+            <div class="card">
+              <img class="appimage" src="{{ app.app_image.url }}" alt="Facebook" />
+              <div class="details">
+                <h3>{{ app.app_name }}</h3>
+                <div class="modifybtn" style="padding-top: 5px;">
+                  <a href="{% url 'update_app' app.id %}" style="background-color: #00acc1;color: white;padding: 5px 10px;border: none;border-radius: 8px;">Update Details</a>
+                  <a href="{% url 'deleteApp' app.id %}" style="background-color:rgb(193, 0, 0);color: white;padding: 5px 10px;border: none;border-radius: 8px;">Delete App</a>
+                </div>
+              </div>
+              <div class="points" style="display: flex; align-items: center;">
+                <img class="coin" src="{% static 'img/coin.png' %}" alt="" /> {{ app.points }}
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="no-apps-container">
+            <img style="width: 28vw;" src="{% static 'img/oops.jpeg' %}" alt="oops" />
+            <h1>No Apps Listed Yet</h1>
+            <p>It seems like there are no apps currently listed. Please check back later or add a new app.</p>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- add ap container -->
+      {% include 'add_app.html' %}
+      {% include 'users_page.html' %}
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    })
+    // script for image upload box
+    document.addEventListener('DOMContentLoaded', function () {
+      const imageUploadArea = document.getElementById('imageUploadContainer')
+      const imageFileInput = document.getElementById('imageInput')
+      const imageDisplay = document.getElementById('imagePreview')
+      const imageinfo = document.querySelectorAll('.imageinfo')
+    
+      function displayImagePreview(file) {
+        if (file) {
+          const fileReader = new FileReader()
+          fileReader.onload = function (event) {
+            imageDisplay.src = event.target.result
+            imageDisplay.style.display = 'block'
+            imageinfo.forEach((element) => {
+              element.style.display = 'none'
+            })
+          }
+          fileReader.readAsDataURL(file)
+        } else {
+          imageDisplay.src = '#'
+          imageDisplay.style.display = 'none'
+        }
+      }
+    
+      imageUploadArea.addEventListener('click', function () {
+        imageFileInput.click()
+      })
+    
+      imageFileInput.addEventListener('change', function () {
+        displayImagePreview(this.files[0])
+      })
+    
+      imageUploadArea.addEventListener('dragover', function (event) {
+        event.preventDefault()
+        this.style.borderColor = '#007bff'
+      })
+    
+      imageUploadArea.addEventListener('dragleave', function () {
+        this.style.borderColor = '#ccc'
+      })
+    
+      imageUploadArea.addEventListener('drop', function (event) {
+        event.preventDefault()
+        this.style.borderColor = '#ccc'
+        imageFileInput.files = event.dataTransfer.files
+        displayImagePreview(event.dataTransfer.files[0])
+      })
+    })
+    
+    // script for navigation
+    document.getElementById('addapp').addEventListener('click', () => {
+      document.getElementById('addapp').classList.add('active')
+      document.getElementById('home').classList.remove('active')
+      document.getElementById('logout').classList.remove('active')
+      document.getElementById('users').classList.remove('active')
+      document.querySelector('.form-container').style.display = 'block'
+      document.querySelector('.profile-container').style.display = 'none'
+      document.querySelector('.task-container').style.display = 'none'
+    })
+    document.getElementById('users').addEventListener('click', () => {
+      document.getElementById('users').classList.add('active')
+      document.getElementById('addapp').classList.remove('active')
+      document.getElementById('home').classList.remove('active')
+      document.getElementById('logout').classList.remove('active')
+      document.querySelector('.task-container').style.display = 'block'
+      document.querySelector('.form-container').style.display = 'none'
+      document.querySelector('.profile-container').style.display = 'none'
+    })
+    
+    document.getElementById('home').addEventListener('click', () => {
+      document.getElementById('home').classList.add('active')
+      document.getElementById('addapp').classList.remove('active')
+      document.getElementById('logout').classList.remove('active')
+      document.getElementById('users').classList.remove('active')
+      document.querySelector('.profile-container').style.display = 'block'
+      document.querySelector('.task-container').style.display = 'none'
+      document.querySelector('.form-container').style.display = 'none'
+    })
+    
+    // script for add point button
+    let addpointbtn = document.getElementById('addPointsBtn')
+    if (addpointbtn) {
+      addpointbtn.addEventListener('click', (e) => {
+        e.preventDefault()
+        addpointbtn.style.display = 'none'
+        document.getElementById('points').style.display = 'block'
+        document.getElementById('save').style.display = 'block'
+      })
+    }
+  </script>
+{% endblock %}

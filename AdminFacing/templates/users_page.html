@@ -1,0 +1,35 @@
+{% load static %}
+<div class="task-container maincontent" style="display: none;">
+  {% if users %}
+    <h3 style="margin-left: 10px;">Users in your app 🔹</h3>
+    <hr />
+    {% for user in users %}
+      <div class="card" style="display: flex;justify-content: space-between;align-items: center; gap: 10px; padding: 5px 20px;">
+        <div class="details">
+          <h3>{{ user.username }}</h3>
+          {% if not user.is_superuser %}
+          <a href="{% url 'userinfo' user.uid %}" style="color:#303f9f;margin: 0;cursor: pointer;">Downloaded Apps By User <i class="fa-regular fa-square-caret-right"></i></a>
+          {% endif %}
+        </div>
+        <div style="text-align: center;">
+            <strong>Name</strong>
+          <p style="margin: 2px;color: blue;">{% if user.first_name %}{{ user.first_name }}{% else %}No Name{% endif %}</p>
+        </div>
+        <div style="text-align: center;">
+            <strong>Phone Number</strong>
+          <p style="margin: 2px;color: blue;">{{ user.phone_number }}</p>
+        </div>
+        <div style="text-align: center;">
+            <strong>Joined at</strong>
+          <p style="margin: 2px;color: blue;">{{ user.date_joined|date:'F Y' }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="no-apps-container">
+      <img style="width: 28vw;" src="{% static 'img/oops.jpeg' %}" alt="oops" />
+      <h1>No users in your app yet.</h1>
+      <p>We don't have any users at the moment. Please check back soon.</p>
+    </div>
+  {% endif %}
+</div>

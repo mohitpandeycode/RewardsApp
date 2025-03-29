@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block tilte %}
+  Welcome to User Dashboard
+{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="sidebar">
+      <ul>
+        <li>
+          <a data-page="home" id="home" class="active"><i class="fa-solid fa-house"></i> Home</a>
+        </li>
+        <li>
+          <a id="profile" data-page="profile"><i class="fa-solid fa-user"></i> Profile</a>
+        </li>
+        <li>
+          <a id="points" data-page="points"><i class="fa-solid fa-gift"></i> Points</a>
+        </li>
+        <li>
+          <a id="task" data-page="task"><i class="fa-solid fa-calendar"></i> Task</a>
+        </li>
+        <li>
+          <a href="{% url 'userlogout' %}" id="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="content active" id="home">
+      <div class="header">
+        <h2 style="margin-block-end: -10px; margin-block-start: 2px;">Welcome Back {{ request.user.username }} 🫡</h2>
+        <p style="color: black;">Explore Your rewards in your RewardsApp!</p>
+      </div>
+      <div class="profile-container maincontent">
+        {% if downloaded_apps %}
+          <h3 style="margin-left: 10px;">Your Collected Rewards!</h3>
+          <hr />
+          {% for downloaded_app in downloaded_apps %}
+            <div class="card">
+              <img class="appimage" src="{{ downloaded_app.app_image.url }}" alt="Facebook" />
+              <div class="details">
+                <h3>{{ downloaded_app.app_name }}</h3>
+                <p style="margin: 0; color: blue;">Task Completed✅</p>
+              </div>
+              <div class="points" style="display: flex; align-items: center;">
+                <img class="coin" src="{% static 'img/coin.png' %}" alt="" /> {{ downloaded_app.points }}
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="no-apps-container">
+            <img style="width: 28vw;" src="{% static 'img/oops.jpeg' %}" alt="oops" />
+            <h1>You haven't completed any task yet!</h1>
+            <p>It seems like there are no apps currently listed. Please check <span style="color: blue;">Task</span> and Grab the rewards.</p>
+          </div>
+        {% endif %}
+      </div>
+      <!-- Profile page -->
+      {% include 'profile_page.html' %}
+      {% include 'points.html' %}
+      {% include 'task.html' %}
+    </div>
+  </div>
+
+  <script>
+    let home = document.getElementById('home')
+    let profile = document.getElementById('profile')
+    let points = document.getElementById('points')
+    let task = document.getElementById('task')
+    // script for navigation
+    home.addEventListener('click', () => {
+      home.classList.add('active')
+      profile.classList.remove('active')
+      task.classList.remove('active')
+      points.classList.remove('active')
+      document.querySelector('.profile-container').style.display = 'block'
+      document.querySelector('.profilepage-container').style.display = 'none'
+      document.querySelector('.points-container').style.display = 'none'
+      document.querySelector('.task-container ').style.display = 'none'
+    })
+    profile.addEventListener('click', () => {
+      profile.classList.add('active')
+      points.classList.remove('active')
+      task.classList.remove('active')
+      home.classList.remove('active')
+      document.querySelector('.profilepage-container').style.display = 'block'
+      document.querySelector('.profile-container').style.display = 'none'
+      document.querySelector('.points-container').style.display = 'none'
+      document.querySelector('.task-container ').style.display = 'none'
+    })
+    
+    points.addEventListener('click', () => {
+      points.classList.add('active')
+      profile.classList.remove('active')
+      task.classList.remove('active')
+      home.classList.remove('active')
+      document.querySelector('.points-container').style.display = 'block'
+      document.querySelector('.profile-container').style.display = 'none'
+      document.querySelector('.task-container ').style.display = 'none'
+      document.querySelector('.profilepage-container').style.display = 'none'
+    })
+    task.addEventListener('click', () => {
+      task.classList.add('active')
+      profile.classList.remove('active')
+      home.classList.remove('active')
+      points.classList.remove('active')
+      document.querySelector('.task-container ').style.display = 'block'
+      document.querySelector('.profile-container').style.display = 'none'
+      document.querySelector('.profilepage-container').style.display = 'none'
+      document.querySelector('.points-container').style.display = 'none'
+    })
+  </script>
+{% endblock %}

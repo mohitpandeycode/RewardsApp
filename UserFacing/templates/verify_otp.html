@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Verify your OTP..
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <style>
+        /* Your existing CSS styles */
+        .otpbox {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 81vh;
+            margin: 0;
+            background-color: #3f51b5;
+        }
+
+        .otp-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+        }
+
+        .otp-icon {
+            font-size: 48px;
+            color: #3f51b5;
+            margin-bottom: 20px;
+        }
+
+        .otp-title {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .otp-input-group {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .otp-input {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 0 5px;
+            font-size: 18px;
+            text-align: center;
+            outline: none;
+        }
+
+        .otp-button {
+            background-color: #ddd; /* Initially greyed out */
+            color: #999;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: default; /* Change cursor when disabled */
+            font-size: 16px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .otp-button.active {
+            background-color: #3f51b5; /* Active color */
+            color: white;
+            cursor: pointer; /* Change cursor when active */
+        }
+
+        .otp-button.active:hover {
+            background-color: #303f9f;
+        }
+
+        .otp-button.loading {
+            background-color: #90a4ae;
+            pointer-events: none;
+        }
+
+        .otp-button.loading::after {
+            content: '';
+            width: 18px;
+            height: 18px;
+            border: 3px solid #fff;
+            border-top: 3px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="otpbox">
+        <div class="otp-container">
+            <form method="post">
+                {% csrf_token %}
+            <div class="otp-icon">
+                <i class="bx bxs-check-shield"></i>
+            </div>
+            <h2 class="otp-title">Enter OTP Code</h2>
+            <div class="otp-input-group">
+                <input type="text" maxlength="1" class="otp-input" id="otp1" name="otp1" />
+                <input type="text" maxlength="1" class="otp-input" id="otp2" name="otp2"/>
+                <input type="text" maxlength="1" class="otp-input" id="otp3" name="otp3"/>
+                <input type="text" maxlength="1" class="otp-input" id="otp4" name="otp4"/>
+                <input type="text" maxlength="1" class="otp-input" id="otp5" name="otp5"/>
+                <input type="text" maxlength="1" class="otp-input" id="otp6" name="otp6"/>
+            </div>
+            <button class="otp-button" id="verifyButton">Verify OTP</button>
+        </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('.otp-input');
+            const verifyButton = document.getElementById('verifyButton');
+
+            inputs.forEach((input, index) => {
+                input.addEventListener('input', function() {
+                    if (this.value.length === 1 && index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                    updateVerifyButton();
+                });
+
+                input.addEventListener('keydown', function(event) {
+                    if (event.key === 'Backspace' && this.value.length === 0 && index > 0) {
+                        inputs[index - 1].focus();
+                    }
+                    updateVerifyButton();
+                });
+            });
+
+            function updateVerifyButton() {
+                const isOtpFilled = Array.from(inputs).every(input => input.value.length === 1);
+                if (isOtpFilled) {
+                    verifyButton.classList.add('active');
+                } else {
+                    verifyButton.classList.remove('active');
+                }
+            }
+
+            updateVerifyButton();
+
+            verifyButton.addEventListener('click', function() {
+                if (verifyButton.classList.contains('active')) {
+                    const otp = Array.from(inputs).map(input => input.value).join('');
+                    console.log('OTP:', otp);
+
+                    verifyButton.classList.add('loading');
+                    verifyButton.textContent = 'Verifying...';
+
+                    setTimeout(() => {
+                        verifyButton.classList.remove('loading');
+                        verifyButton.textContent = 'Verify OTP';
+                    }, 5000);
+                }
+            });
+        });
+    </script>
+{% endblock %}

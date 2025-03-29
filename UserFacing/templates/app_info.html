@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block tilte %}
+  App {{ app.name }}
+{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="sidebar">
+      <ul>
+        <li>
+          <a href="{% url 'user_dashboard' %}" data-page="home" id="home"><i class="fa-solid fa-house"></i> Home</a>
+        </li>
+        <li>
+          <a class="active" id="appinfo" data-page="appinfo"><i class="fa-solid fa-circle-info"></i> App info</a>
+        </li>
+      </ul>
+    </div>
+    <div class="content active" id="home">
+      <div class="header">
+        <h2 style="margin-block-end: -10px; margin-block-start: 2px;">Welcome Back {{ request.user.username }} 🫡</h2>
+        <p style="color: black;">Explore Your rewards in your RewardsApp...</p>
+      </div>
+      <div class="profile-container maincontent" style="height: 72vh;">
+        <div class="card">
+          <img class="appimage" src="{{ app.app_image.url }}" alt="Facebook" />
+          <div class="details">
+            <h3>{{ app.app_name }}</h3>
+              <h5 style="margin: 0px; color: green;">{{ app.app_category }} - {{ app.subcategory }}</h5>
+          </div>
+          <div class="points" style="display: flex; align-items: center;">
+            <img class="coin" src="{% static 'img/coin.png' %}" alt="" /> {{ app.points }}
+          </div>
+        
+          <div>
+            <a target="_blank" style="text-decoration: none;text-align: center;background-color: #00acc1;color: white;padding: 12px 12px;border: none;border-radius: 8px;cursor: pointer;font-size: 16px; margin-left:5px ;" href="{{ app.download_link }}">Download App</a>
+          </div>
+        </div>
+        <hr />
+        <h2 style="margin-left: 10px;color: #be00ff;">To get reward, upload the Download and opend screenshot of the app!✅</h2>
+        <hr />
+        <div>
+          <form method="post" enctype="multipart/form-data"style="display: flex;flex-direction: column;justify-content:center ;align-items:center;gap: 30px;"">
+            {% csrf_token %}
+            <div id="imageUploadContainer">
+              <input type="file" id="imageInput" accept="image/*" name="SS_proof" style="display: none;" />
+              <p style="font-size: 1.75rem;font-family: 'Winky Sans', sans-serif; font-weight: 600;" class="imageinfo">
+                Drag & Drop an image here or <span style="color: rgb(1, 173, 194);">browse to upload.</span>
+              </p>
+              <p class="imageinfo">
+                <i class="imageinfo fa-solid fa-camera fa-4x"></i>
+              </p>
+              <img id="imagePreview" src="#" alt="Image Preview" />
+            </div>
+            <button style="text-align: center;background-color: #00c13e;color: white;padding: 15px 25px;border: none;border-radius: 8px;cursor: pointer;font-size: 16px;" type="submit" id="uploadSS">UPLOAD</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // script for image upload box
+    document.addEventListener('DOMContentLoaded', function () {
+      const imageUploadArea = document.getElementById('imageUploadContainer')
+      const imageFileInput = document.getElementById('imageInput')
+      const imageDisplay = document.getElementById('imagePreview')
+      const imageinfo = document.querySelectorAll('.imageinfo')
+    
+      function displayImagePreview(file) {
+        if (file) {
+          const fileReader = new FileReader()
+          fileReader.onload = function (event) {
+            imageDisplay.src = event.target.result
+            imageDisplay.style.display = 'block'
+            imageinfo.forEach((element) => {
+              element.style.display = 'none'
+            })
+          }
+          fileReader.readAsDataURL(file)
+        } else {
+          imageDisplay.src = '#'
+          imageDisplay.style.display = 'none'
+        }
+      }
+    
+      imageUploadArea.addEventListener('click', function () {
+        imageFileInput.click()
+      })
+    
+      imageFileInput.addEventListener('change', function () {
+        displayImagePreview(this.files[0])
+      })
+    
+      imageUploadArea.addEventListener('dragover', function (event) {
+        event.preventDefault()
+        this.style.borderColor = '#007bff'
+      })
+    
+      imageUploadArea.addEventListener('dragleave', function () {
+        this.style.borderColor = '#ccc'
+      })
+    
+      imageUploadArea.addEventListener('drop', function (event) {
+        event.preventDefault()
+        this.style.borderColor = '#ccc'
+        imageFileInput.files = event.dataTransfer.files
+        displayImagePreview(event.dataTransfer.files[0])
+      })
+    })
+  </script>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  login or signup to your account
+{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/loginpage.css' %}" />
+  <style>
+    .userformbody {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 84vh;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+    input[type='text'],
+    input[type='password'],
+    input[type='email'],
+    input[type='tel'] {
+      width: calc(100% - 22px);
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+  </style>
+{% endblock %}
+
+{% block body %}
+  <div class="userformbody">
+    <div class="container">
+      <div id="login-form">
+        <form method="post">
+          {% csrf_token %}
+          <h2>User Login</h2>
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required />
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" required />
+          </div>
+          <button id="login-button">Send OTP</button>
+          <p>are you a <a href="/admin-facing/">admin?</a> </p>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

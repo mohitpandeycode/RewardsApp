@@ -1,0 +1,27 @@
+{% load static %}
+<div class="task-container maincontent" style="display: none;">
+  {% if not_downloaded_apps %}
+    <h3 style="margin-left: 10px;">Download The Listed Apps To Get Rewards🎉</h3>
+    <hr />
+    {% for not_downloaded_app in not_downloaded_apps %}
+      <div class="card">
+        <img class="appimage" src="{{ not_downloaded_app.app_image.url }}" alt="Facebook" />
+        <div class="details">
+          <h3>{{ not_downloaded_app.app_name }}</h3>
+          <a href="{% url 'appinfo' not_downloaded_app.id %}" style="color:#303f9f;margin: 0;cursor: pointer;">
+            View details <i class="fa-regular fa-square-caret-right"></i>
+          </a>
+        </div>
+        <div class="points" style="display: flex; align-items: center;">
+          <img class="coin" src="{% static 'img/coin.png' %}" alt="" />{{ not_downloaded_app.points }}
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="no-apps-container">
+      <img style="width: 28vw;" src="{% static 'img/oops.jpeg' %}" alt="oops" />
+      <h1>No Apps for Rewards Listed Yet</h1>
+      <p>It seems like there are no apps currently listed. Please check Later and Grab the rewards.</p>
+    </div>
+  {% endif %}
+</div>

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block tilte %}
+  App {{ app.name }}
+{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="sidebar">
+      <ul>
+        <li>
+          <a href="{% url 'admin_dashboard' %}" data-page="home" id="home">
+            <i class="fa-solid fa-house"></i>
+            Home
+          </a>
+        </li>
+        <li>
+          <a class="active" id="appinfo" data-page="appinfo"><i class="fa-solid fa-person-circle-check"></i> View Apps</a>
+        </li>
+      </ul>
+    </div>
+    <div class="content active" id="home">
+      <div class="header">
+        <h2 style="margin-block-end: -10px; margin-block-start: 2px;">Welcome Back Admin 🫡</h2>
+        <p style="color: black;">Here is something you can do with your RewardsApp...</p>
+      </div>
+      <div class="profile-container maincontent" style="height: 72vh;">
+        <h3 style="margin-left: 10px;">Apps Downloaded By user 🔹</h3>
+        <hr />
+        {% if apps %}
+          {% for app in apps %}
+            <div class="card">
+              <img class="appimage" src="{{ app.app.app_image.url }}" alt="Facebook" />
+              <div class="details">
+                <h3>{{ app.app.app_name }}</h3>
+                <h5 style="margin: 0px; color: green;">{{ app.app.app_category }} - {{ app.app.subcategory }}</h5>
+              </div>
+              <div class="points" style="display: flex; align-items: center;">
+                <img class="coin" src="{% static 'img/coin.png' %}" alt="" /> {{ app.app.points }}
+              </div>
+              <p class="upimg" style="color: blue;margin-left: 5px;cursor: pointer;">View Uploaded Image <i class="fa-solid fa-chevron-down"></i></p>
+            </div>
+            {% if app.screenshot %}
+              <img class="imgup" style="margin: 5px 180px; display: none;" width="60%" src="{{ app.screenshot.url }}" alt="Screenshot" />
+              <a class="noval" href="{% url 'notvalid' app.id %}" style=" text-align:center;width: 30%;margin: 5px auto; background-color:rgb(248 98 0);color: white;padding: 5px 10px;border: none;border-radius: 8px; display: none;text-decoration: none;box-shadow: 0 4px 8px rgba(60 60 60 / 37%);"><i class="fa-solid fa-circle-info"></i> Not Valid</a>
+            {% else %}
+              <p>No screenshot available.</p>
+            {% endif %}
+          {% endfor %}
+          {% else %}
+          <div class="no-apps-container">
+            <img style="width: 28vw;" src="{% static 'img/oops.jpeg' %}" alt="oops" />
+            <h1>User isn't downloded any apps yet.</h1>
+            <p>This user not downloaded any aps yet. Please check back soon.</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    //script for user image uplaodation check and validate
+    let imgbtns = document.querySelectorAll('.upimg')
+    let imgs = document.querySelectorAll('.imgup')
+    let notvalids = document.querySelectorAll('.noval')
+    imgbtns.forEach((imgbtn, index) => {
+        imgbtn.addEventListener('click', () => {
+            if ( imgs[index].style.display == "none"){
+                imgs[index].style.display = "block";
+                notvalids[index].style.display = "block"
+                imgbtn.innerHTML = '';
+                imgbtn.innerHTML = 'View Uploaded Image <i class="fa-solid fa-chevron-up"></i>';
+            }
+            else{
+                imgs[index].style.display = "none";
+                notvalids[index].style.display = "none"
+                imgbtn.innerHTML = '';
+                imgbtn.innerHTML = 'View Uploaded Image <i class="fa-solid fa-chevron-down"></i>';
+            }
+        });
+    });
+  </script>
+{% endblock %}

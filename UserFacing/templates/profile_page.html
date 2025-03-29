@@ -1,0 +1,37 @@
+<div style="display:none;" class="profilepage-container maincontent">
+  <h3 style="margin-left: 10px;">Your Profile Info!</h3>
+  <hr />
+  <form style="padding:20px;" method="post">
+    {% csrf_token %}
+    <div class="input-row">
+      <input type="text" placeholder="Your Name" name="name" id="name" value="{{ user.first_name }}" readonly />
+      <input type="text" placeholder="Your Username" id="username" value="{{ user.username }}" readonly/>
+    </div>
+
+    <div class="input-row">
+      <input type="tel" placeholder="YYour Phone Number" id="phone_number" value="{{ user.phone_number }}" readonly />
+      <input type="email" placeholder="Your Email" name="email" id="email" value="{{ user.email }}" readonly/>
+    </div>
+    <p id="texts" style="color: green;"></p>
+
+    <button type="button" id="updateProfile">Update Profile</button>
+    <button style="display: none;" type="submit" id="saveProfile">Save Profile</button>
+  </form>
+</div>
+
+<script>
+  //script for update personal details 
+  let update = document.getElementById('updateProfile');
+  let save = document.getElementById('saveProfile');
+  let name = document.getElementById('name');
+  let email = document.getElementById('email');
+  update.addEventListener("click", ()=>{
+    name.removeAttribute('readonly');
+    name.style.border = "1px solid green";
+    email.removeAttribute('readonly');
+    email.style.border = "1px solid green";
+    texts.innerText = "you can now change your name and email...";
+    update.style.display="none";
+    save.style.display="block";
+  })
+</script>

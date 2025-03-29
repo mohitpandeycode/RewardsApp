@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Welcome to Rewards app
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+{% endblock css %}
+
+{% block body %}
+    <main>
+        <div class="content-container">
+            <h1 style="color: white;">Unlock Your Rewards Today</h1>
+            <p style="color: white;">Dive into a world of exclusive perks and exciting opportunities. Experience the thrill of earning rewards and discovering amazing features tailored just for you.</p>
+            <a href="{% if request.user.is_superuser %}admin-facing/{% else %}user-facing/{% endif %}" class="dashboard-button">
+                Explore Dashboard <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+        <particles class="particles">
+            <div style="top: 10%; left: 10%; animation-delay: 0s;"></div>
+            <div style="top: 30%; left: 30%; animation-delay: 1s;"></div>
+            <div style="top: 50%; left: 50%; animation-delay: 2s;"></div>
+            <div style="top: 70%; left: 70%; animation-delay: 3s;"></div>
+            <div style="top: 20%; left: 80%; animation-delay: 1.5s;"></div>
+            <div style="top: 60%; left: 20%; animation-delay: 2.5s;"></div>
+        </particles>
+    </main>
+{% endblock body %}

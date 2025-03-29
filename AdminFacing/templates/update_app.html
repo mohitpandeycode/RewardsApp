@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block tilte %}
+  Update App {{ app.name }}
+{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="sidebar">
+      <ul>
+        <li>
+          <a href="{% url 'admin_dashboard' %}" data-page="home" id="home"><i class="fa-solid fa-house"></i> Home</a>
+        </li>
+        <li>
+          <a class="active" id="updateapp" data-page="add-app"><i class="fa-solid fa-circle-plus"></i> Update App</a>
+        </li>
+      </ul>
+    </div>
+    <div class="content active" id="home">
+      <div class="header">
+        <h2 style="margin-block-end: -10px; margin-block-start: 2px;">Welcome Back Admin 🫡</h2>
+        <p style="color: black;">Here is something you can do with your RewardsApp...</p>
+      </div>
+      <div class="form-container maincontent" style="height: 72vh;">
+        <form  method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <div id="imageUploadContainer">
+            <input type="file" id="imageInput" accept="image/*" name="app_image" style="display: none;" />
+            <img style="display: block;" id="imagePreview" src="{{app.app_image.url}}" alt="Image Preview" />
+          </div>
+
+          <div class="input-row">
+            <input type="text" placeholder="App Name" name="appName" value="{{app.app_name}}" id="appName" required />
+            <input type="text" placeholder="App Link" name="appLink"value="{{app.download_link}}" id="appLink" required />
+          </div>
+          <div class="input-row">
+            <select id="appCategory" name="appCategory" required>
+              <option value="">Select App Category</option>
+              {% for category in categories %}
+                  <option value="{{ category }}" {% if app.app_category == category %}selected{% endif %}>
+                      {{ category }}
+                  </option>
+              {% endfor %}
+          </select>
+          
+          <select id="appSubCategory" name="subcategory" required>
+              <option value="">Select Sub Category</option>
+              {% for subcategory in subcategories %}
+                  <option value="{{ subcategory }}" {% if app.subcategory == subcategory %}selected{% endif %}>
+                      {{ subcategory }}
+                  </option>
+              {% endfor %}
+          </select>
+          
+          </div>
+          <input type="number" name="points" value="{{app.points}}" placeholder="Points" id="points" required />
+          <button type="submit" id="save">Save</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+        // script for image upload box drag and drop feature
+    document.addEventListener('DOMContentLoaded', function () {
+      const imageUploadArea = document.getElementById('imageUploadContainer')
+      const imageFileInput = document.getElementById('imageInput')
+      const imageDisplay = document.getElementById('imagePreview')
+      const imageinfo = document.querySelectorAll('.imageinfo')
+    
+      function displayImagePreview(file) {
+        if (file) {
+          const fileReader = new FileReader()
+          fileReader.onload = function (event) {
+            imageDisplay.src = event.target.result
+            imageDisplay.style.display = 'block'
+            imageinfo.forEach((element) => {
+              element.style.display = 'none'
+            })
+          }
+          fileReader.readAsDataURL(file)
+        } else {
+          imageDisplay.src = '#'
+          imageDisplay.style.display = 'none'
+        }
+      }
+    
+      imageUploadArea.addEventListener('click', function () {
+        imageFileInput.click()
+      })
+    
+      imageFileInput.addEventListener('change', function () {
+        displayImagePreview(this.files[0])
+      })
+    
+      imageUploadArea.addEventListener('dragover', function (event) {
+        event.preventDefault()
+        this.style.borderColor = '#007bff'
+      })
+    
+      imageUploadArea.addEventListener('dragleave', function () {
+        this.style.borderColor = '#ccc'
+      })
+    
+      imageUploadArea.addEventListener('drop', function (event) {
+        event.preventDefault()
+        this.style.borderColor = '#ccc'
+        imageFileInput.files = event.dataTransfer.files
+        displayImagePreview(event.dataTransfer.files[0])
+      })
+    })
+  </script>
+{% endblock %}

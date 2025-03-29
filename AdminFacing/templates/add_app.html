@@ -1,0 +1,40 @@
+<div style="display: none;" class="form-container maincontent">
+    <form action="{% url 'add_app' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div id="imageUploadContainer">
+            <input type="file" id="imageInput" accept="image/*" name="app_image" style="display: none;" required>
+            <p style="font-size: 1.75rem;font-family: 'Winky Sans', sans-serif; font-weight: 600;" class="imageinfo">
+                Drag & Drop an image here or <span style="color: rgb(1, 173, 194);">browse to upload.</span>
+            </p>
+            <p class="imageinfo"><i class="imageinfo fa-solid fa-camera fa-4x"></i></p>
+            <img id="imagePreview" src="#" alt="Image Preview">
+        </div>
+
+        <div class="input-row">
+            <input type="text" placeholder="App Name" name="appName" id="appName" required>
+            <input type="url" placeholder="App Link" name="appLink" id="appLink" required>
+        </div>
+
+        <div class="input-row">
+            <select id="appCategory" name="appCategory" required>
+                <option value="">Select App Category</option>
+                {% for category in categories %}
+                    <option value="{{ category }}">{{ category }}</option>
+                {% endfor %}
+            </select>
+
+            <select id="appSubCategory" name="subcategory" required>
+                <option value="">Select Sub Category</option>
+                {% for subcategory in subcategories %}
+                    <option value="{{ subcategory }}">{{ subcategory }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button id="addPointsBtn">ADD POINTS</button>
+        <input style="display: none;" type="number" name="points" placeholder="Points" id="points" required>
+        <button style="display: none;" type="submit" id="save">Save</button>
+    </form>
+</div>
+

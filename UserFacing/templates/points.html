@@ -1,0 +1,32 @@
+{% load static %}
+<div class="points-container maincontent" style="display: none;">
+  <div class="inner" style="padding: 12px 15px;">
+    <h3>Your Total Earned Points - <span class="points" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"><img style="width: 30px;margin-bottom: -6px;" src="{% static 'img/totalrewards.png' %}" alt="" /> {{ total_points }}</span></h3>
+    <hr />
+    <div class="points-summary">
+      <h4>Points Breakdown:</h4>
+      <p>Total Points:</p>
+    </div>
+    {% if downloaded_apps %}
+      {% for downloaded_app in downloaded_apps %}
+        <div class="point-entry">
+          <div class="app-details">
+            <img class="appimage" src="{{ downloaded_app.app_image.url }}" alt="" />
+            <div class="app-name">{{ downloaded_app.app_name }}</div>
+          </div>
+          <div class="points-earned">
+            <img class="coin" src="{% static 'img/coin.png' %}" alt="Coin" />
+            {{ downloaded_app.points }}
+          </div>
+        </div>
+      {% endfor %}
+      <hr />
+      <div style="display: flex;justify-content: flex-end; align-items: center;margin-right: 5px;" class="total">
+        <img class="coin" src="{% static 'img/coin.png' %}" alt="Coin" />
+        <h3 style="margin: 0px;">{{ total_points }}</h3>
+      </div>
+    {% else %}
+      <p>You haven't earned any points yet.</p>
+    {% endif %}
+  </div>
+</div>

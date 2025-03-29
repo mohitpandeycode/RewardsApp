@@ -1,0 +1,350 @@
+.container {
+  display: flex;
+  height: 90vh;
+}
+
+.sidebar {
+  width: 220px;
+  background-color: #283593;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+}
+
+.sidebar li {
+  margin-bottom: 10px;
+}
+
+.sidebar a {
+  display: block;
+  padding: 12px 15px;
+  text-decoration: none;
+  color: white;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar a.active,
+.sidebar a:hover {
+  background-color: #3f51b5;
+}
+
+.content {
+  flex: 1;
+  display: block;
+}
+
+.content.active {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.header {
+  background-color: #ffffffd9;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #283593;
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+.form-container,
+.profile-container,
+.profilepage-container,
+.points-container,
+.task-container {
+  padding: 15px 0px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 95%;
+  height: 70vh;
+  margin: 0 auto;
+}
+
+.form-container img {
+  width: 120px;
+  margin-bottom: 25px;
+  border-radius: 8px;
+}
+
+.form-container input,
+.form-container select {
+  width: calc(50% - 15px);
+  padding: 12px;
+  margin: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.form-container .input-row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.form-container button {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #00acc1;
+  color: white;
+  padding: 14px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  display: block;
+  margin: 25px auto;
+}
+
+.form-container button:hover {
+  background-color: #26c6da;
+  display: block;
+  margin: 25px auto;
+}
+
+.profile-container .card {
+  width: 90%;
+  background-color: white;
+  border-radius: 12px;
+  margin: 0 auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+}
+
+.appimage {
+  width: 60px;
+  margin-right: 20px;
+  border-radius: 8px;
+}
+
+.profile-container .card .details {
+  flex: 1;
+}
+
+.profile-container .card .points {
+  background-color: #e0f7fa;
+  color: #00acc1;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  width: 68px;
+  text-align: center;
+}
+
+.drop-area {
+  border: 2px dashed #ccc;
+  padding: 30px;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 30px;
+  border-radius: 12px;
+  transition: border-color 0.3s ease;
+}
+
+.drop-area.dragover {
+  border-color: #00acc1;
+}
+
+.file-list {
+  margin-top: 20px;
+  padding-left: 0;
+}
+
+.file-list li {
+  list-style-type: none;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+input[type='text'],
+select,
+button,
+.drop-area {
+  transition: box-shadow 0.3s ease;
+}
+
+input[type='text']:focus,
+select:focus,
+button:focus,
+.drop-area:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 172, 193, 0.5);
+}
+
+/*style for main page*/
+.maincontent {
+  overflow: auto;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.details {
+  flex: 1;
+}
+
+.details h3 {
+  margin: 0;
+}
+
+.details a {
+  text-decoration: none;
+  color: #007bff;
+  /* Link color */
+  font-size: 0.9em;
+}
+
+.coin {
+  width: 20px;
+}
+
+.points {
+  background-color: #e0f7fa;
+  color: #00acc1;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+#imageUploadContainer {
+  width: 25vw;
+  border: 2px dashed #ccc;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  margin: auto;
+}
+
+#imagePreview {
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.no-apps-container {
+  padding: 15px 0px;
+  width: 95%;
+  height: 60vh;
+  margin: 0 auto;
+  text-align: center;
+  background-color: white;
+}
+
+.no-apps-container h1 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.no-apps-container p {
+  color: #777;
+  font-size: 1.1em;
+  margin-bottom: 30px;
+}
+
+.no-apps-container button {
+  background-color: #007bff;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.no-apps-container button:hover {
+  background-color: #0056b3;
+}
+
+.input-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.input-row input,
+.input-row select {
+  width: 48%;
+  /* Adjust width for two inputs in a row */
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#saveProfile,#updateProfile {
+  background-color: #3f51b5;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+}
+
+#saveProfile:hover {
+  background-color: #303f9f;
+}
+
+
+/* for points Page */
+
+.points-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.point-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+
+.app-details {
+  display: flex;
+  align-items: center;
+}
+
+.appimage {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.points-earned {
+  display: flex;
+  align-items: center;
+}
+
+.coin {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
