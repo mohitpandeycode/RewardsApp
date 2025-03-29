@@ -1,6 +1,7 @@
 from AdminFacing.models import App
 from .models import *
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
@@ -11,6 +12,7 @@ import re
 
 
 # home page for user login 
+@csrf_exempt
 def index(request):
     # check if the user is already loggedin
     if request.user.is_authenticated and not request.user.is_superuser:
@@ -52,6 +54,7 @@ def index(request):
         return render(request, 'user_login_signup.html')
     
 #  funtion for user varification with OTP verification
+@csrf_exempt
 def verify_otp(request):
     user_id = request.session.get('user_id')
     user = get_object_or_404(CustomUser, id=user_id)
@@ -82,6 +85,7 @@ def verify_otp(request):
 
 
 #  function for user dashboard
+@csrf_exempt
 @login_required
 def user_dashboard(request):
     # getting the downlaoded apps in user homer
@@ -110,6 +114,7 @@ def user_dashboard(request):
 
 
 # function for get the app info and download or upload section
+@csrf_exempt
 @login_required
 def app_info(request, id):
     app = get_object_or_404(App, id=id)
@@ -132,6 +137,7 @@ def app_info(request, id):
             return render(request, 'app_info.html', {'app': app})
     return render(request, 'app_info.html',{'app':app})
 
+@csrf_exempt
 @login_required
 def userlogout(request):
     logout(request)
