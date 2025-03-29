@@ -25,7 +25,7 @@ def index(request):
 
         # Clean and validate the phone number
         if phone_number:
-            phone_number = re.sub(r'\D', '', phone_number)
+            phone_number = (re.sub(r'\D', '', phone_number))
             if not len(phone_number) == 10:
                 messages.error(request, 'Invalid phone number. Please enter a 10-digit number.')
                 return render(request, 'user_login_signup.html')
