@@ -37,7 +37,9 @@ else:
 AUTH_USER_MODEL = 'UserFacing.CustomUser'
 
 ALLOWED_HOSTS = ['major-jemmy-mohitdevs-05e72243.koyeb.app','127.0.0.1']
-
+CSRF_TRUSTED_ORIGINS = [
+    "https://major-jemmy-mohitdevs-05e72243.koyeb.app"
+]
 
 # Application definition
 
