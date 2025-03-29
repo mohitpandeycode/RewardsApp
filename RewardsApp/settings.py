@@ -36,9 +36,11 @@ else:
 
 AUTH_USER_MODEL = 'UserFacing.CustomUser'
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['major-jemmy-mohitdevs-05e72243.koyeb.app']
 
-
+CSRF_TRUSTED_ORIGINS = [
+    "https://major-jemmy-mohitdevs-05e72243.koyeb.app"
+]
 # Application definition
 
 INSTALLED_APPS = [
