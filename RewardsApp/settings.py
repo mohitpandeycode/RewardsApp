@@ -29,10 +29,10 @@ ENVIRONMENT = env('ENVIRONMENT', default='production')
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# if ENVIRONMENT == 'development':
-DEBUG = True
-# else:
-    # DEBUG = False
+if ENVIRONMENT == 'development':
+    DEBUG = True
+else:
+    DEBUG = False
 
 AUTH_USER_MODEL = 'UserFacing.CustomUser'
 
